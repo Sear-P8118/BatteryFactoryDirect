@@ -37,7 +37,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${spaceGrotesk.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-[#0a0a0a] text-zinc-100">
+      <body className="min-h-full flex flex-col bg-zinc-100 text-zinc-900">
         <Header />
         <div className="flex-1">{children}</div>
         <Footer />

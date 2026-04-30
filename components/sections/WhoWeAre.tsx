@@ -11,19 +11,16 @@ const stats = [
 
 export function WhoWeAre() {
   return (
-    <section className="py-20 lg:py-28 bg-zinc-950">
+    <section className="py-20 lg:py-28 bg-zinc-100">
       <div className="max-w-screen-xl mx-auto px-6 lg:px-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
 
-          {/* Text */}
           <AnimatedSection direction="left">
-            <p className="text-red-500 text-xs font-semibold tracking-widest uppercase mb-4">
-              Who We Are
-            </p>
-            <h2 className="text-4xl lg:text-5xl font-black text-white leading-tight tracking-tight mb-6">
+            <p className="text-red-600 text-xs font-semibold tracking-widest uppercase mb-4">Who We Are</p>
+            <h2 className="text-4xl lg:text-5xl font-black text-zinc-900 leading-tight tracking-tight mb-6">
               A New Kind of Battery Business for Perth
             </h2>
-            <p className="text-zinc-400 text-lg leading-relaxed mb-4">
+            <p className="text-zinc-600 text-lg leading-relaxed mb-4">
               Battery Factory Direct is a Maddington-based warehouse supply hub — built to give Perth drivers and businesses the right battery, at a direct price, delivered fast.
             </p>
             <p className="text-zinc-500 text-base leading-relaxed">
@@ -31,17 +28,16 @@ export function WhoWeAre() {
             </p>
           </AnimatedSection>
 
-          {/* Stats */}
           <AnimatedSection direction="right" delay={0.1}>
-            <div className="grid grid-cols-2 gap-px bg-zinc-800 rounded-lg overflow-hidden">
+            <div className="grid grid-cols-2 gap-px bg-zinc-300 rounded-xl overflow-hidden border border-zinc-300">
               {stats.map(({ value, label }) => (
-                <div key={label} className="bg-zinc-900 px-8 py-8">
+                <div key={label} className="bg-white px-8 py-8">
                   <motion.p
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
-                    className="text-3xl font-black text-white mb-1"
+                    className="text-3xl font-black text-zinc-900 mb-1"
                   >
                     {value}
                   </motion.p>

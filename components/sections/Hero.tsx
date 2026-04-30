@@ -3,11 +3,10 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Phone, ChevronRight } from 'lucide-react'
 
-// ── VIDEO: Replace the placeholder div below with:
+// ── VIDEO: Replace placeholder div with:
 //    <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover">
 //      <source src="/videos/hero.mp4" type="video/mp4" />
 //    </video>
-// ──────────────────────────────────────────────────
 
 const ctaBlocks = [
   {
@@ -33,36 +32,34 @@ export function Hero() {
   return (
     <section className="relative">
 
-      {/* ── HERO PANEL ─────────────────────────────── */}
-      <div className="relative h-[85vh] min-h-[560px] flex items-center overflow-hidden bg-zinc-950">
+      {/* ── HERO PANEL ─────────────────────── */}
+      <div className="relative h-[88vh] min-h-[580px] flex items-center overflow-hidden bg-zinc-900">
 
-        {/* Video placeholder — swap for <video> tag when footage is ready */}
-        <div className="absolute inset-0 bg-gradient-to-br from-zinc-900 via-zinc-950 to-black">
+        {/* Video placeholder */}
+        <div className="absolute inset-0 bg-gradient-to-br from-zinc-800 via-zinc-900 to-black">
           <div className="absolute inset-0"
             style={{
               backgroundImage: `
-                linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)`,
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)`,
               backgroundSize: '80px 80px',
             }} />
           <div className="absolute inset-0"
             style={{
-              background: 'radial-gradient(ellipse 70% 60% at 50% 100%, rgba(239,68,68,0.1) 0%, transparent 60%)',
+              background: 'radial-gradient(ellipse 70% 50% at 50% 100%, rgba(220,38,38,0.12) 0%, transparent 60%)',
             }} />
         </div>
 
-        {/* Overlay gradient at bottom */}
-        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-zinc-950 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-zinc-900 to-transparent" />
 
-        {/* Content */}
         <div className="relative max-w-screen-xl mx-auto px-6 lg:px-10 w-full">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+            transition={{ duration: 0.8 }}
             className="max-w-3xl"
           >
-            <p className="text-red-500 text-xs font-semibold tracking-widest uppercase mb-5">
+            <p className="text-red-400 text-xs font-semibold tracking-widest uppercase mb-5">
               Maddington, Perth WA · Opening Soon
             </p>
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[0.95] text-white mb-6">
@@ -75,7 +72,6 @@ export function Hero() {
           </motion.div>
         </div>
 
-        {/* Decorative number */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -83,14 +79,14 @@ export function Hero() {
           className="absolute right-0 bottom-0 hidden xl:block pointer-events-none select-none"
           aria-hidden
         >
-          <span className="text-[240px] font-black text-zinc-900 leading-none">12V</span>
+          <span className="text-[240px] font-black text-zinc-800 leading-none">12V</span>
         </motion.div>
       </div>
 
-      {/* ── 3-BLOCK CTA STRIP (Penske-style) ──────── */}
-      <div className="bg-zinc-900 border-b border-zinc-800">
+      {/* ── 3-BLOCK CTA STRIP ──────────────── */}
+      <div className="bg-white border-b border-zinc-200 shadow-sm">
         <div className="max-w-screen-xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-zinc-800">
+          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-zinc-200">
             {ctaBlocks.map((block, i) => (
               <motion.div
                 key={block.label}
@@ -103,13 +99,13 @@ export function Hero() {
                   className={`group flex items-center justify-between gap-4 px-8 py-6 transition-colors duration-200 ${
                     block.primary
                       ? 'bg-red-600 hover:bg-red-700'
-                      : 'hover:bg-zinc-800/60'
+                      : 'bg-white hover:bg-zinc-50'
                   }`}
                 >
                   <div>
                     <div className="flex items-center gap-2 mb-1">
-                      {block.phone && <Phone className="w-4 h-4 text-red-500" />}
-                      <p className={`font-bold text-base ${block.primary ? 'text-white' : 'text-white'}`}>
+                      {block.phone && <Phone className="w-4 h-4 text-red-600 group-hover:text-red-700" />}
+                      <p className={`font-bold text-base ${block.primary ? 'text-white' : 'text-zinc-900'}`}>
                         {block.label}
                       </p>
                     </div>
@@ -118,7 +114,7 @@ export function Hero() {
                     </p>
                   </div>
                   <ChevronRight className={`w-5 h-5 flex-shrink-0 transition-transform group-hover:translate-x-1 ${
-                    block.primary ? 'text-white' : 'text-zinc-600'
+                    block.primary ? 'text-white' : 'text-zinc-400'
                   }`} />
                 </Link>
               </motion.div>

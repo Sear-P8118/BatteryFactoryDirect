@@ -35,17 +35,15 @@ const cols = [
 
 export function Footer() {
   return (
-    <footer className="bg-zinc-950 border-t border-zinc-800/50">
+    <footer className="bg-zinc-900 border-t border-zinc-800">
       <div className="max-w-screen-xl mx-auto px-6 lg:px-10 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-
-          {/* Brand */}
           <div>
             <div className="mb-5">
               <span className="text-lg font-black text-white tracking-tight">BATTERY FACTORY</span>
               <span className="text-lg font-black text-red-500 tracking-tight"> DIRECT</span>
             </div>
-            <p className="text-zinc-500 text-sm leading-relaxed mb-6 max-w-xs">
+            <p className="text-zinc-400 text-sm leading-relaxed mb-6 max-w-xs">
               Perth&apos;s warehouse-direct battery supplier. Matched to your vehicle, delivered across Perth from our Maddington supply hub.
             </p>
             <div className="space-y-2.5">
@@ -61,7 +59,6 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Link columns */}
           {cols.map((col) => (
             <div key={col.heading}>
               <h4 className="text-white font-semibold text-sm mb-5 tracking-wide">{col.heading}</h4>
@@ -78,8 +75,7 @@ export function Footer() {
           ))}
         </div>
 
-        {/* Network */}
-        <div className="mt-12 pt-8 border-t border-zinc-800/50">
+        <div className="mt-12 pt-8 border-t border-zinc-800">
           <p className="text-zinc-600 text-xs uppercase tracking-widest font-medium mb-2">Part of the Perth Battery Network</p>
           <p className="text-zinc-600 text-xs">Connected with Car Battery Perth · Fremantle Batteries</p>
         </div>

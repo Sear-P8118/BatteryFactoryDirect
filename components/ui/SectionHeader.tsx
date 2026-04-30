@@ -12,18 +12,13 @@ export function SectionHeader({ eyebrow, title, subtitle, centered = false, clas
   return (
     <div className={cn('mb-12', centered && 'text-center', className)}>
       {eyebrow && (
-        <p className="text-red-500 text-xs font-semibold tracking-widest uppercase mb-3">{eyebrow}</p>
+        <p className="text-red-600 text-xs font-semibold tracking-widest uppercase mb-3">{eyebrow}</p>
       )}
-      <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-zinc-50">
+      <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-zinc-900">
         {title}
       </h2>
       {subtitle && (
-        <p
-          className={cn(
-            'mt-4 text-lg text-zinc-400 max-w-2xl leading-relaxed',
-            centered && 'mx-auto'
-          )}
-        >
+        <p className={cn('mt-4 text-lg text-zinc-500 max-w-2xl leading-relaxed', centered && 'mx-auto')}>
           {subtitle}
         </p>
       )}
