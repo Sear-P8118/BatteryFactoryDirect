@@ -3,92 +3,87 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ChevronRight } from 'lucide-react'
 import { batteryCategories } from '@/data/categories'
-import { SectionHeader } from '@/components/ui/SectionHeader'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.07 } },
-}
+// ── FUTURE: Replace placeholder bg divs with real product/category photography ──
 
-const cardVariants = {
-  hidden: { opacity: 0, scale: 0.96 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.4 } },
+const categoryColors: Record<string, string> = {
+  car: 'from-zinc-800 to-zinc-900',
+  '4wd': 'from-stone-800 to-zinc-900',
+  truck: 'from-zinc-700 to-zinc-900',
+  marine: 'from-slate-800 to-zinc-900',
+  motorcycle: 'from-zinc-800 to-neutral-900',
+  agm: 'from-red-950 to-zinc-900',
+  lithium: 'from-zinc-800 to-zinc-950',
+  'start-stop': 'from-neutral-800 to-zinc-900',
+  commercial: 'from-zinc-800 to-zinc-900',
 }
 
 const badgeClass: Record<string, string> = {
-  'Most Popular': 'bg-red-600/20 text-red-400',
-  Premium: 'bg-zinc-700 text-zinc-300',
-  Trade: 'bg-blue-600/20 text-blue-400',
+  'Most Popular': 'bg-red-600 text-white',
+  Premium: 'bg-white/10 text-white',
+  Trade: 'bg-blue-600/80 text-white',
 }
 
 export function BatteryCategories() {
   return (
-    <section className="py-20 md:py-28 bg-[#0f0f0f]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <AnimatedSection>
-          <SectionHeader
-            eyebrow="Battery Range"
-            title="Whatever You Drive, We Stock It"
-            subtitle="From everyday passenger vehicles to heavy commercial trucks and marine craft — Battery Factory Direct supplies the right battery for every application."
-          />
+    <section className="py-20 lg:py-28 bg-zinc-950 border-t border-zinc-800/50">
+      <div className="max-w-screen-xl mx-auto px-6 lg:px-10">
+
+        <AnimatedSection className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+          <div>
+            <p className="text-red-500 text-xs font-semibold tracking-widest uppercase mb-3">Battery Range</p>
+            <h2 className="text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
+              Whatever You Drive,<br />We Stock It
+            </h2>
+          </div>
+          <Link href="/battery-range"
+            className="flex items-center gap-2 text-sm font-semibold text-zinc-400 hover:text-white transition-colors whitespace-nowrap">
+            View Full Range <ChevronRight className="w-4 h-4" />
+          </Link>
         </AnimatedSection>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"
-        >
-          {batteryCategories.map((cat) => (
-            <motion.div key={cat.id} variants={cardVariants}>
-              <Link
-                href={`/battery-range#${cat.id}`}
-                className="group relative block bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-xl p-6 transition-all duration-300 hover:bg-zinc-800/50 h-full"
+        {/* Primary grid — 3 large + 6 smaller */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {batteryCategories.map((cat, i) => (
+            <motion.div
+              key={cat.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.45, delay: i * 0.05 }}
+            >
+              <Link href={`/battery-range#${cat.id}`}
+                className={`group relative flex flex-col justify-end h-52 rounded-lg overflow-hidden bg-gradient-to-br ${
+                  categoryColors[cat.id] ?? 'from-zinc-800 to-zinc-900'
+                } border border-zinc-800 hover:border-zinc-600 transition-all duration-300`}
               >
-                {cat.badge && (
-                  <span
-                    className={`absolute top-4 right-4 text-xs font-semibold px-2 py-0.5 rounded-full ${
-                      badgeClass[cat.badge] ?? 'bg-zinc-700 text-zinc-300'
-                    }`}
-                  >
-                    {cat.badge}
+                {/* Hover overlay */}
+                <div className="absolute inset-0 bg-red-600/0 group-hover:bg-red-600/5 transition-colors duration-300" />
+
+                {/* Bottom content */}
+                <div className="relative p-5">
+                  <div className="flex items-start justify-between gap-2 mb-1">
+                    <h3 className="text-white font-bold text-lg leading-snug">{cat.name}</h3>
+                    {cat.badge && (
+                      <span className={`text-xs font-semibold px-2 py-0.5 rounded flex-shrink-0 ${
+                        badgeClass[cat.badge] ?? 'bg-zinc-700 text-zinc-300'
+                      }`}>
+                        {cat.badge}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-zinc-400 text-xs leading-snug mb-3 line-clamp-1">
+                    {cat.applications.slice(0, 3).join(' · ')}
+                  </p>
+                  <span className="inline-flex items-center gap-1 text-xs font-semibold text-red-400 group-hover:text-red-300 transition-colors">
+                    View Range <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                   </span>
-                )}
-                <h3 className="text-zinc-100 font-bold text-lg mb-2 group-hover:text-white transition-colors pr-16">
-                  {cat.name}
-                </h3>
-                <p className="text-zinc-500 text-sm leading-relaxed mb-4 line-clamp-2">
-                  {cat.description}
-                </p>
-                <div className="flex flex-wrap gap-1.5 mb-4">
-                  {cat.applications.slice(0, 3).map((app) => (
-                    <span key={app} className="text-xs bg-zinc-800 text-zinc-400 px-2 py-0.5 rounded">
-                      {app}
-                    </span>
-                  ))}
-                </div>
-                <div className="flex items-center gap-1 text-xs font-semibold text-red-500 group-hover:gap-2 transition-all">
-                  View Range
-                  <ChevronRight className="w-3.5 h-3.5" />
                 </div>
               </Link>
             </motion.div>
           ))}
-        </motion.div>
-
-        <AnimatedSection delay={0.2}>
-          <div className="mt-10 text-center">
-            <Link
-              href="/battery-range"
-              className="inline-flex items-center gap-2 text-zinc-400 hover:text-zinc-100 font-semibold transition-colors border border-zinc-700 hover:border-zinc-500 px-6 py-3 rounded-lg text-sm"
-            >
-              View Full Battery Range
-              <ChevronRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </AnimatedSection>
+        </div>
       </div>
     </section>
   )

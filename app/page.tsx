@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
 import { Hero } from '@/components/sections/Hero'
+import { WhoWeAre } from '@/components/sections/WhoWeAre'
+import { BatteryCategories } from '@/components/sections/BatteryCategories'
 import { RegoFinder } from '@/components/sections/RegoFinder'
 import { WhyUs } from '@/components/sections/WhyUs'
-import { BatteryCategories } from '@/components/sections/BatteryCategories'
 import { EmergencySection } from '@/components/sections/EmergencySection'
 import { TradeSupply } from '@/components/sections/TradeSupply'
 import { NetworkSection } from '@/components/sections/NetworkSection'
@@ -28,8 +29,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "Battery Factory Direct | Perth's Warehouse-Direct Battery Supplier",
-    description:
-      'Fast battery matching, Perth-wide delivery, and installation from our Maddington supply hub.',
+    description: 'Fast battery matching, Perth-wide delivery, and installation from our Maddington supply hub.',
     type: 'website',
   },
 }
@@ -38,9 +38,10 @@ export default function HomePage() {
   return (
     <main>
       <Hero />
+      <WhoWeAre />
+      <BatteryCategories />
       <RegoFinder />
       <WhyUs />
-      <BatteryCategories />
       <EmergencySection />
       <TradeSupply />
       <NetworkSection />

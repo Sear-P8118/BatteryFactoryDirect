@@ -1,17 +1,18 @@
 'use client'
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, CheckCircle2, MapPin, Truck, ChevronRight } from 'lucide-react'
-import { SectionHeader } from '@/components/ui/SectionHeader'
+import Link from 'next/link'
+import { Search, CheckCircle2, MapPin, Truck, ChevronRight, Phone } from 'lucide-react'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 
 type SearchState = 'idle' | 'searching' | 'result'
 
-// ─── FUTURE API INTEGRATION ────────────────────────────────────────────────────
-// Replace MOCK_RESULT and the fake delay with a real API call, e.g.:
-//   GET /api/rego-match?rego=1ABC123&suburb=Maddington
-// Expected response shape: { batteryCode, batteryType, vehicleMatch, price, priceInstalled }
-// ──────────────────────────────────────────────────────────────────────────────
+// ── FUTURE API INTEGRATION ──────────────────────────────────────────────────
+// Replace MOCK_RESULT and fake delay with:
+//   const res = await fetch(`/api/rego-match?rego=${rego}&suburb=${suburb}`)
+//   const data = await res.json()
+// Expected response: { batteryCode, batteryType, vehicleMatch, price, priceInstalled }
+// ───────────────────────────────────────────────────────────────────────────
 const MOCK_RESULT = {
   batteryCode: 'DIN66 AGM',
   batteryType: 'AGM Start-Stop Battery',
@@ -30,66 +31,61 @@ export function RegoFinder() {
     if (!rego.trim()) return
     setState('searching')
     // ── REPLACE WITH REAL API CALL ──
-    await new Promise((r) => setTimeout(r, 1600))
+    await new Promise((r) => setTimeout(r, 1500))
     setState('result')
   }
 
-  const handleReset = () => {
-    setState('idle')
-    setRego('')
-    setSuburb('')
-  }
-
   return (
-    <section
-      className="py-20 md:py-28 bg-[#0f0f0f] relative overflow-hidden"
-      id="rego-finder"
-    >
-      <div
-        className="absolute inset-0 pointer-events-none opacity-50"
-        style={{
-          backgroundImage: `linear-gradient(rgba(239,68,68,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(239,68,68,0.035) 1px, transparent 1px)`,
-          backgroundSize: '40px 40px',
-        }}
-      />
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto">
-          <AnimatedSection>
-            <SectionHeader
-              eyebrow="Battery Matching Tool"
-              title="Find Your Battery in Seconds"
-              subtitle="Enter your vehicle registration and we'll match the exact battery for your make, model, and engine — no guessing required."
-              centered
-            />
+    <section className="py-20 lg:py-28 bg-[#0f0f0f] border-t border-zinc-800/50" id="rego-finder">
+      <div className="max-w-screen-xl mx-auto px-6 lg:px-10">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+
+          {/* Left — copy */}
+          <AnimatedSection direction="left">
+            <p className="text-red-500 text-xs font-semibold tracking-widest uppercase mb-4">
+              Battery Matching Tool
+            </p>
+            <h2 className="text-4xl lg:text-5xl font-black text-white leading-tight tracking-tight mb-5">
+              Find Your Battery<br />in Seconds
+            </h2>
+            <p className="text-zinc-400 text-lg leading-relaxed mb-8">
+              Enter your vehicle registration and we&apos;ll match the exact battery for your make, model, and engine. No guessing, no wrong batteries.
+            </p>
+            <div className="space-y-3">
+              {['Matched to your exact vehicle spec', 'Perth-wide delivery or install', 'Instant price from warehouse stock'].map((pt) => (
+                <div key={pt} className="flex items-center gap-3 text-sm text-zinc-400">
+                  <div className="w-1.5 h-1.5 rounded-full bg-red-500 flex-shrink-0" />
+                  {pt}
+                </div>
+              ))}
+            </div>
           </AnimatedSection>
 
-          <AnimatedSection delay={0.1}>
-            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 md:p-8">
-              <AnimatePresence mode="wait">
-                {state !== 'result' ? (
-                  <motion.form
-                    key="form"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0, scale: 0.98 }}
-                    transition={{ duration: 0.2 }}
-                    onSubmit={handleSubmit}
-                    className="space-y-4"
-                  >
-                    <div className="grid sm:grid-cols-2 gap-4">
+          {/* Right — tool */}
+          <AnimatedSection direction="right" delay={0.1}>
+            <div className="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
+
+              {/* Tool header */}
+              <div className="bg-zinc-800/60 border-b border-zinc-800 px-6 py-4">
+                <p className="text-white font-bold text-sm">Battery Finder</p>
+                <p className="text-zinc-500 text-xs mt-0.5">WA registration plates supported</p>
+              </div>
+
+              <div className="p-6">
+                <AnimatePresence mode="wait">
+                  {state !== 'result' ? (
+                    <motion.form key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }} onSubmit={handleSubmit} className="space-y-4">
                       <div>
                         <label className="block text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-2">
-                          Vehicle Registration
+                          Vehicle Registration *
                         </label>
                         <input
-                          type="text"
-                          value={rego}
+                          type="text" value={rego}
                           onChange={(e) => setRego(e.target.value.toUpperCase())}
-                          placeholder="e.g. 1ABC123"
-                          maxLength={8}
-                          className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3.5 text-zinc-100 placeholder-zinc-600 text-lg font-semibold tracking-widest focus:outline-none focus:border-red-500 transition-colors"
-                          required
-                        />
+                          placeholder="e.g. 1ABC123" maxLength={8}
+                          className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3 text-white placeholder-zinc-600 text-lg font-bold tracking-widest focus:outline-none focus:border-red-500 transition-colors"
+                          required />
                       </div>
                       <div>
                         <label className="block text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-2">
@@ -98,108 +94,71 @@ export function RegoFinder() {
                         <div className="relative">
                           <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-600" />
                           <input
-                            type="text"
-                            value={suburb}
+                            type="text" value={suburb}
                             onChange={(e) => setSuburb(e.target.value)}
                             placeholder="e.g. Maddington"
-                            className="w-full bg-zinc-800 border border-zinc-700 rounded-lg pl-10 pr-4 py-3.5 text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-red-500 transition-colors"
-                          />
+                            className="w-full bg-zinc-800 border border-zinc-700 rounded-lg pl-10 pr-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition-colors" />
                         </div>
                       </div>
-                    </div>
+                      <button type="submit" disabled={state === 'searching' || !rego.trim()}
+                        className="w-full flex items-center justify-center gap-3 bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white font-bold py-3.5 rounded-lg transition-colors text-sm cursor-pointer disabled:cursor-not-allowed">
+                        {state === 'searching' ? (
+                          <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Matching your vehicle...</>
+                        ) : (
+                          <><Search className="w-4 h-4" /> Find My Battery</>
+                        )}
+                      </button>
+                    </motion.form>
+                  ) : (
+                    <motion.div key="result" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.35 }}>
+                      <div className="flex items-center gap-3 mb-5">
+                        <CheckCircle2 className="w-6 h-6 text-red-500" />
+                        <p className="text-xs font-semibold text-red-500 uppercase tracking-widest">Battery Match Found</p>
+                      </div>
 
-                    <motion.button
-                      whileHover={{ scale: 1.01 }}
-                      whileTap={{ scale: 0.99 }}
-                      type="submit"
-                      disabled={state === 'searching' || !rego.trim()}
-                      className="w-full flex items-center justify-center gap-3 bg-red-600 hover:bg-red-700 disabled:opacity-60 text-white font-bold py-4 px-6 rounded-lg transition-colors text-base cursor-pointer disabled:cursor-not-allowed"
-                    >
-                      {state === 'searching' ? (
-                        <>
-                          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                          Matching your vehicle...
-                        </>
-                      ) : (
-                        <>
-                          <Search className="w-5 h-5" />
-                          Find My Battery
-                        </>
-                      )}
-                    </motion.button>
-
-                    <p className="text-xs text-zinc-700 text-center">
-                      WA rego plates supported · Your data is not stored
-                    </p>
-                  </motion.form>
-                ) : (
-                  <motion.div
-                    key="result"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    <div className="border border-red-500/25 rounded-xl bg-zinc-800/40 p-6 mb-4">
-                      <div className="flex items-start justify-between mb-6">
-                        <div>
-                          <p className="text-xs font-semibold text-red-500 uppercase tracking-widest mb-1">
-                            Battery Match Found
-                          </p>
-                          <h3 className="text-2xl font-black text-zinc-50">{MOCK_RESULT.batteryCode}</h3>
+                      <div className="border border-zinc-700 rounded-lg overflow-hidden mb-4">
+                        <div className="bg-zinc-800 px-5 py-4 border-b border-zinc-700">
+                          <p className="text-white font-black text-xl">{MOCK_RESULT.batteryCode}</p>
                           <p className="text-zinc-400 text-sm">{MOCK_RESULT.batteryType}</p>
                         </div>
-                        <CheckCircle2 className="w-8 h-8 text-red-500 flex-shrink-0" />
-                      </div>
-
-                      <div className="grid sm:grid-cols-3 gap-3 mb-6">
-                        <div className="bg-zinc-900 rounded-lg p-4">
-                          <p className="text-xs text-zinc-600 mb-1.5 uppercase tracking-wide font-medium">Vehicle Match</p>
-                          <p className="text-sm font-semibold text-zinc-200 leading-tight">{MOCK_RESULT.vehicleMatch}</p>
-                        </div>
-                        <div className="bg-zinc-900 rounded-lg p-4">
-                          <p className="text-xs text-zinc-600 mb-1.5 uppercase tracking-wide font-medium">From Price</p>
-                          <p className="text-2xl font-black text-zinc-50 leading-none">{MOCK_RESULT.price}</p>
-                          <p className="text-xs text-zinc-500 mt-1">{MOCK_RESULT.priceInstalled}</p>
-                        </div>
-                        <div className="bg-zinc-900 rounded-lg p-4">
-                          <p className="text-xs text-zinc-600 mb-1.5 uppercase tracking-wide font-medium">Delivery</p>
-                          <div className="flex items-center gap-2">
-                            <Truck className="w-4 h-4 text-red-500" />
-                            <p className="text-sm font-semibold text-zinc-200">Perth-Wide</p>
+                        <div className="grid grid-cols-3 divide-x divide-zinc-700">
+                          <div className="px-4 py-3">
+                            <p className="text-zinc-500 text-xs mb-1">Vehicle</p>
+                            <p className="text-white text-xs font-semibold leading-snug">{MOCK_RESULT.vehicleMatch}</p>
+                          </div>
+                          <div className="px-4 py-3">
+                            <p className="text-zinc-500 text-xs mb-1">From</p>
+                            <p className="text-white font-black text-lg leading-none">{MOCK_RESULT.price}</p>
+                          </div>
+                          <div className="px-4 py-3">
+                            <p className="text-zinc-500 text-xs mb-1">Delivery</p>
+                            <div className="flex items-center gap-1">
+                              <Truck className="w-3 h-3 text-red-500" />
+                              <p className="text-white text-xs font-semibold">Perth-Wide</p>
+                            </div>
                           </div>
                         </div>
                       </div>
 
-                      <div className="flex flex-col sm:flex-row gap-3">
-                        <a
-                          href="/quote"
-                          className="flex-1 flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-5 rounded-lg transition-colors text-sm"
-                        >
-                          Book Delivery & Install
-                          <ChevronRight className="w-4 h-4" />
-                        </a>
-                        <a
-                          href="tel:0000000000"
-                          className="flex items-center justify-center gap-2 bg-zinc-700 hover:bg-zinc-600 text-zinc-100 font-semibold py-3 px-5 rounded-lg transition-colors text-sm"
-                        >
-                          Call to Confirm
+                      <div className="flex gap-2 mb-3">
+                        <Link href="/quote"
+                          className="flex-1 flex items-center justify-center gap-1.5 bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-lg transition-colors text-sm">
+                          Book Delivery & Install <ChevronRight className="w-3.5 h-3.5" />
+                        </Link>
+                        <a href="tel:0000000000"
+                          className="flex items-center justify-center gap-1.5 bg-zinc-700 hover:bg-zinc-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors text-sm">
+                          <Phone className="w-4 h-4" />
                         </a>
                       </div>
-                    </div>
-
-                    <button
-                      onClick={handleReset}
-                      className="w-full text-sm text-zinc-600 hover:text-zinc-400 transition-colors py-2"
-                    >
-                      ← Search another vehicle
-                    </button>
-                    <p className="text-xs text-zinc-800 text-center mt-2">
-                      Preview only. Live rego matching system launching soon.
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                      <button onClick={() => { setState('idle'); setRego(''); setSuburb('') }}
+                        className="w-full text-xs text-zinc-600 hover:text-zinc-400 transition-colors py-1">
+                        ← Search another vehicle
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
           </AnimatedSection>
         </div>

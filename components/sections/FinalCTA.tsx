@@ -1,73 +1,43 @@
 'use client'
-import { motion } from 'framer-motion'
-import { Phone, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
+import { Phone, ChevronRight } from 'lucide-react'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 
 export function FinalCTA() {
   return (
-    <section className="py-24 md:py-32 relative overflow-hidden bg-zinc-950">
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            'radial-gradient(ellipse 60% 70% at 50% 50%, rgba(239,68,68,0.09) 0%, transparent 70%)',
-        }}
-      />
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)
-          `,
-          backgroundSize: '40px 40px',
-        }}
-      />
+    <section className="bg-zinc-950 border-t border-zinc-800/50">
+      <div className="max-w-screen-xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-zinc-800">
+          <AnimatedSection className="px-10 py-12">
+            <p className="text-zinc-500 text-xs uppercase tracking-widest font-semibold mb-2">Battery Matching</p>
+            <h3 className="text-white font-black text-2xl mb-4 leading-tight">Enter Your Rego</h3>
+            <p className="text-zinc-500 text-sm mb-6">Find the exact battery for your vehicle in seconds.</p>
+            <Link href="/quote"
+              className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-5 rounded-lg transition-colors text-sm">
+              Get Started <ChevronRight className="w-4 h-4" />
+            </Link>
+          </AnimatedSection>
 
-      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <AnimatedSection>
-          <p className="text-red-500 text-xs font-semibold tracking-widest uppercase mb-4">
-            Need a battery today?
-          </p>
-          <h2 className="text-4xl md:text-6xl font-black text-zinc-50 leading-tight mb-6">
-            Let&apos;s Find Your Battery.
-            <br />
-            <span className="text-zinc-400">Right now.</span>
-          </h2>
-          <p className="text-zinc-400 text-lg mb-10 max-w-xl mx-auto leading-relaxed">
-            Enter your rego, call our team, or request a quote. Perth-wide delivery and installation available.
-          </p>
+          <AnimatedSection delay={0.07} className="px-10 py-12">
+            <p className="text-zinc-500 text-xs uppercase tracking-widest font-semibold mb-2">Emergency Help</p>
+            <h3 className="text-white font-black text-2xl mb-4 leading-tight">Battery Died Now?</h3>
+            <p className="text-zinc-500 text-sm mb-6">24/7 emergency battery replacement across all Perth suburbs.</p>
+            <a href="tel:0000000000"
+              className="inline-flex items-center gap-2 border border-zinc-700 hover:border-zinc-500 text-zinc-200 font-bold py-3 px-5 rounded-lg transition-colors text-sm">
+              <Phone className="w-4 h-4" /> Call Now
+            </a>
+          </AnimatedSection>
 
-          <div className="flex flex-wrap justify-center gap-4">
-            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-              <Link
-                href="/quote"
-                className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-8 rounded-lg transition-colors text-base"
-              >
-                Enter Your Rego
-                <ChevronRight className="w-4 h-4" />
-              </Link>
-            </motion.div>
-            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-              <a
-                href="tel:0000000000"
-                className="inline-flex items-center gap-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-100 font-bold py-4 px-8 rounded-lg transition-colors text-base border border-zinc-700"
-              >
-                <Phone className="w-4 h-4" />
-                Call Now
-              </a>
-            </motion.div>
-            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-              <Link
-                href="/quote"
-                className="inline-flex items-center gap-2 border border-zinc-600 hover:border-zinc-400 text-zinc-300 font-semibold py-4 px-8 rounded-lg transition-colors text-base"
-              >
-                Get Quote
-              </Link>
-            </motion.div>
-          </div>
-        </AnimatedSection>
+          <AnimatedSection delay={0.14} className="px-10 py-12">
+            <p className="text-zinc-500 text-xs uppercase tracking-widest font-semibold mb-2">Trade Customers</p>
+            <h3 className="text-white font-black text-2xl mb-4 leading-tight">Apply for Trade Supply</h3>
+            <p className="text-zinc-500 text-sm mb-6">Mechanics, fleets, and businesses — apply for trade pricing.</p>
+            <Link href="/quote"
+              className="inline-flex items-center gap-2 border border-zinc-700 hover:border-zinc-500 text-zinc-200 font-bold py-3 px-5 rounded-lg transition-colors text-sm">
+              Apply Now <ChevronRight className="w-4 h-4" />
+            </Link>
+          </AnimatedSection>
+        </div>
       </div>
     </section>
   )
